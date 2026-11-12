@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "image-compressor"
+version = "1.1.0"
+description = "Parallel directory image compression using native codecs"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Image Compressor Contributors" }]
+dependencies = ["tqdm>=4.66"]
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.10",
+    "pytest>=8.2",
+    "ruff>=0.5",
+    "types-tqdm>=4.66",
+]
+
+[project.scripts]
+image-compressor = "compressor.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["compressor"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"compressor/svgo.config.mjs" = "compressor/svgo.config.mjs"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
